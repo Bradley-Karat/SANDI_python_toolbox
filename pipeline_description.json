@@ -1,0 +1,15 @@
+{
+    "Name": "SANDI_python_toolbox",
+    "BIDSVersion": "1.8.0",
+    "DatasetType": "derivative",
+    "GeneratedBy": [
+        {
+            "Name": "SANDI_python_toolbox",
+            "Version": "0.1.0",
+            "CodeURL": "http://github.com/Bradley-Karat/SANDI_python_toolbox",
+            "Author": "Bradley Karat",
+            "AuthorEmail": "bradleykarat@gmail.com"
+ 
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: SANDI-python-toolbox
+Version: 0.1.0
+Summary: SANDI_python_toolbox
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/x-rst
+
+SANDI_python_toolbox
+============
+
+SANDI model fitting in python + BIDS handling
+
+

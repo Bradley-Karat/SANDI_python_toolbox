@@ -1,0 +1,3 @@
+[console_scripts]
+SANDI_python_toolbox = SANDI_python_toolbox.run:main
+
