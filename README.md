@@ -6,6 +6,9 @@ This toolbox enables model-based estimation of MR signal fraction of brain cell 
 Dependency management and python package handling is done with [poetry](https://python-poetry.org/docs/)
 ```
 pip install poetry
+```
+then the toolbox can be installed with:
+```
 git clone https://github.com/Bradley-Karat/SANDI_python_toolbox.git
 cd SANDI_python_toolbox
 poetry install
