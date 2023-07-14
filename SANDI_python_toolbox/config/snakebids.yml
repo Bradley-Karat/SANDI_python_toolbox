@@ -1,0 +1,171 @@
+bids_dir: '/path/to/bids_dir'
+output_dir: '/path/to/output_dir'
+
+#enable printing debug statements during parsing -- disable if generating dag visualization
+debug: False
+
+derivatives: False #will search in bids/derivatives if True; can also be path(s) to derivatives datasets
+
+#list of analysis levels in the bids app
+analysis_levels: &analysis_levels
+ - participant
+
+
+#mapping from analysis_level to set of target rules or files
+targets_by_analysis_level:
+  participant:
+    - ''  # if '', then the first rule is run
+
+#this configures the pybids grabber - create an entry for each type of input you want to grab
+# indexed by name of input
+#   dictionary for each input is passed directly to pybids get()
+#    https://bids-standard.github.io/pybids/generated/bids.layout.BIDSLayout.html#bids.layout.BIDSLayout.get
+
+pybids_inputs:
+  dwi:
+    filters:
+      suffix: 'dwi'
+      extension: '.nii.gz'
+      datatype: 'dwi'
+    wildcards:
+      - subject
+      - session
+      - acquisition
+      - run
+
+#this configures the options to save the BIDSLayout
+# by default, database is not saved (uncomment to save)
+# NOTE: pybids_db_dir must be an absolute path
+# pybids_db_dir: '/path/to/db_dir' # Leave blank if you do not wish to use this
+# pybids_db_reset: False # Change this to true to update the database
+
+#configuration for the command-line parameters to make available
+# passed on the argparse add_argument()
+parse_args:
+
+#---  core BIDS-app options --- (do not modify below)
+
+  bids_dir:
+    help: The directory with the input dataset formatted according
+          to the BIDS standard.
+
+  output_dir:
+    help: The directory where the output files
+          should be stored. If you are running group level analysis
+          this folder should be prepopulated with the results of the
+          participant level analysis.
+
+  analysis_level:
+    help: Level of the analysis that will be performed.
+    choices: *analysis_levels
+
+  --participant_label:
+    help: The label(s) of the participant(s) that should be analyzed. The label
+          corresponds to sub-<participant_label> from the BIDS spec
+          (so it does not include "sub-"). If this parameter is not
+          provided all subjects should be analyzed. Multiple
+          participants can be specified with a space separated list.
+    nargs: '+'
+
+  --exclude_participant_label:
+    help: The label(s) of the participant(s) that should be excluded. The label
+          corresponds to sub-<participant_label> from the BIDS spec
+          (so it does not include "sub-"). If this parameter is not
+          provided all subjects should be analyzed. Multiple
+          participants can be specified with a space separated list.
+    nargs: '+'
+
+  --derivatives:
+    help: 'Path(s) to a derivatives dataset, for folder(s) that contains multiple derivatives datasets (default: %(default)s) '
+    default: False
+    nargs: '+'
+
+  --Delta: 
+    help: 'The diffusion gradient separation ( for PGSE sequence ) in ms. This is assumed the same for all the dataset within the same study.'
+    nargs: 1
+    required: True
+
+  --Small_Delta: 
+    help: 'The diffusion gradient duration ( for PGSE sequence ) in ms. This is assumed the same for all the dataset within the same study.'
+    nargs: 1
+    required: True
+
+  --use_SNR:
+    default: false
+    action: 'store_true'
+    help: 'Use this flag if you do not have a noisemap. When you use this flag it will use the provided average SNR instead. If this flag is used, make sure to specify the SNR with the --SNR flag. (default: %(default)s)'
+
+  --SNR: 
+    help: 'If the --use_SNR flag is provided, make sure to provide the SNR here. (default: %(default)s)'
+    default: 1
+
+  --Nset_size: 
+    help: ' Size of the training set. Recommended values: 1e4 for testing the performance and between 1e5 and 1e6 for the analysis. Do not use values < 1e4. Values >1e6 might lead to out of memory. (default: %(default)s)'
+    default: 1e4
+
+  --ML_model:
+    choices:
+      - 'RF'
+      - 'MLP'
+    default: 
+      - 'RF'
+    nargs: '+'
+    help: 'RF for Random Forest; MLP for multi-layer perceptron. If MLP is chosen, it will by default train a MLP for each model parameter. If you want to train a single MLP for the simulatenous prediction of all model parameters, use the --MLP_predict_all flag. The ML training parameters (Dsoma, Din_UB, Rsoma_UB, and De_UB) can (and should) change according to the acquisition (default: %(default)s)'
+
+  --MLP_predict_all:
+    help: 'When used, it will train a single MLP for the simulatenous prediction of all model parameters, rather than training a MLP for each model parameter seperately (default: %(default)s) '
+    default: false
+    action: 'store_true'
+
+  --Dsoma: 
+    help: 'Bulk diffusivity of water in the soma in micrometers^2/ms.(default: %(default)s)'
+    default: 3
+
+  --Din_UB: 
+    help: 'Upper bound of intracellular diffusivity in micrometers^2/ms.(default: %(default)s)'
+    default: 3
+
+  --use_Rsoma_UB: 
+    help: 'Upper bound of the soma radius in micrometers. If a value is not specified by using this flag than it is set by default to a max value given by the diffusion time and the set Dsoma (default: %(default)s)'
+    default: false
+    nargs: 1
+
+  --De_UB: 
+    help: 'Upper bound of extracellular diffusivity in micrometers^2/ms.(default: %(default)s)'
+    default: 3
+
+  --Fitting_method:
+    choices:
+      - 'MSE'
+      - 'MSE_NLLS'
+    default: 
+      - 'MSE'
+    nargs: 1
+    help: 'MSE: minimizes MSE between ground truth model parameters and ML predictions. It has higher precision but lower accuracy; or MSE_NLLS: minimizes MSE between NLLS estimates of model parameters and ML predictions. It has higher accuracy but lower precision. (default: %(default)s)'
+
+  --no_ML_debias:
+    help: 'Use if you do not want to estimate slope and intercept from the prediciton vs ground truth relation (from training set) and correct the predicition to follow the unit line. (default: %(default)s) '
+    default: false
+    action: 'store_true'
+
+  --FWHM: 
+    help: 'Size of the 3D Gaussian smoothing kernel. If needed, this smooths the input data before analysis (default: %(default)s)'
+    default: 0.001
+
+  --no_direction_averaging:
+    help: 'When used, it calculates the mean signal using order zero SH instead of powder-averaged signal as arithmetic mean (default: %(default)s) '
+    default: false
+    action: 'store_true'
+
+  --use_QC:
+    help: 'When used, it compares the performances of ML estimation with NLLS estimation on unseen simulated signals and write a report. Also will plot figures to check results. (default: %(default)s) '
+    default: false
+    action: 'store_true'
+
+#--- workflow specific configuration -- below is just an example:
+
+metrics: ['fneurite', 'fsoma', 'Din', 'Rsoma', 'De', 'fextra', 'Rsoma_Low_fsoma_Filtered', 'Din_Low_fsoma_Filtered'] 
+
+#singularity containers
+singularity:
+    fsl: 'docker://brainlife/fsl/6.0.0'

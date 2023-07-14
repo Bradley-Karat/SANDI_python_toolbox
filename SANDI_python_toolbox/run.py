@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
-from pathlib import Path
+import os
 
 from snakebids.app import SnakeBidsApp
+from snakebids.cli import add_dynamic_args
 
 
 def get_parser():
     """Exposes parser for sphinx doc generation, cwd is the docs dir"""
-    app = SnakeBidsApp("../")
+    app = SnakeBidsApp("../SANDI_python_toolbox")
+    add_dynamic_args(app.parser, app.config["parse_args"], app.config["pybids_inputs"])
     return app.parser
 
 
 def main():
-    app = SnakeBidsApp(Path(__file__).resolve().parent.parent)  # to get repository root
+    app = SnakeBidsApp(
+        os.path.abspath(os.path.dirname(__file__)),
+        configfile_path="config/snakebids.yml",
+    )
     app.run_snakemake()
 
 
