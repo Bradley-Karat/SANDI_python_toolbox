@@ -19,3 +19,21 @@ or
 poetry shell
 SANDI_python_toolbox
 ```
+## Example File Struture
+```
+└── bids
+    ├── sub-01
+    │ └── dwi
+    │     ├── sub-01_brain_mask.nii.gz
+    │     ├── sub-01_dwi.bval
+    │     ├── sub-01_dwi.bvec
+    │     ├── sub-01_dwi.nii.gz
+    │     └── sub-01_noisemap.nii.gz
+    ├── sub-02
+    │ └── dwi
+    │     ├── sub-02_brain_mask.nii.gz
+    │     ├── sub-02_dwi.bval
+    │     ├── sub-02_dwi.bvec
+    │     ├── sub-02_dwi.nii.gz
+    │     └── sub-02_noisemap.nii.gz
+```
