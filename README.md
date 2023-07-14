@@ -22,6 +22,16 @@ or
 poetry shell
 SANDI_python_toolbox
 ```
+Run either of these with the -h flag to get a detailed summary of the toolbox and its flags plus required arguments.
+## Example Toolbox Call
+For a dry-run:
+```
+poetry run SANDI_python_toolbox /path/to/bids/inputs /path/for/outputs participant --Delta 23.6 --Small_Delta 7 --cores all -np
+```
+To actually run the software:
+```
+poetry run SANDI_python_toolbox /path/to/bids/inputs /path/for/outputs participant --Delta 23.6 --Small_Delta 7 --cores all
+```
 ## Example File Struture
 ```
 └── bids
@@ -40,3 +50,4 @@ SANDI_python_toolbox
     │     ├── sub-02_dwi.nii.gz
     │     └── sub-02_noisemap.nii.gz
 ```
+Alternatively, the `--path-dwi` flag can be used to override BIDS by specifying absolute paths. For example: `--path-dwi /path/to/my_data/{subject}/dwi.nii.gz`. The other necessary files (.bval, .bvec, noisemap and brainmask) must be labelled in a similar fashion (i.e. all have the same prefix).
