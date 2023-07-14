@@ -9,12 +9,12 @@ packages = [{include = "SANDI_python_toolbox"}]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<3.11"
-snakebids = ">=0.5.1"
-snakemake = ">=6.0.0"
+snakebids = "0.7.2"
+snakemake = "7.25.0"
 numpy = "1.21.6"
-nibabel = "^3.2.1"
+nibabel = "3.2.1"
 scipy = "1.7.3"
-scikit-image = "^0.19.3"
+scikit-image = "0.19.3"
 matplotlib = "3.4.2"
 scikit-learn = "1.0.2"
 
