@@ -1,17 +1,20 @@
 [tool.poetry]
 name = "SANDI_python_toolbox"
-version = "0.1.0"
+version = "0.1.1"
 description = "SANDI model fitting in python + BIDS handling"
 authors = ["Bradley-Karat <bkarat@uwo.ca>"]
 license = "BSD-2-Clause"
 readme = "README.md"
 packages = [{include = "SANDI_python_toolbox"}]
 
+[tool.poetry.scripts]
+SANDI_python_toolbox = "SANDI_python_toolbox.run:main"
+
 [tool.poetry.dependencies]
 python = ">=3.7,<3.11"
 snakebids = "0.7.2"
 snakemake = "7.25.0"
-numpy = "1.21.6"
+numpy = "1.21.4"
 nibabel = "3.2.1"
 scipy = "1.7.3"
 scikit-image = "0.19.3"
