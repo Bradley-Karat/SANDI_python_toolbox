@@ -3,7 +3,12 @@ A BIDS app for fitting the Soma and Neurite Density Imaging (SANDI) model, adapt
 
 This toolbox enables model-based estimation of MR signal fraction of brain cell bodies (of all cell types, from neurons to glia, namely soma) and cell projections (of all cell types, from dentrites and myelinated axons to glial processes, namely neurties ) as well as apparent MR cell body radius and intraneurite and extracellular apparent diffusivities from a suitable diffusion-weighted MRI acquisition using Machine Learning (see the original SANDI paper for more details DOI: https://doi.org/10.1016/j.neuroimage.2020.116835).
 ## Installation
-Dependency management and python package handling is done with [poetry](https://python-poetry.org/docs/)
+The package can be installed with:
+```
+pip install sandi-python-toolbox
+```
+#### For a development install (if you will be editing the code):
+Dependency management and python package handling is done with [poetry](https://python-poetry.org/docs/).
 ```
 pip install poetry
 ```
@@ -14,6 +19,11 @@ cd SANDI_python_toolbox
 poetry install
 ```
 ## Usage
+If installed with pip, the package can be ran with:
+```
+SANDI_python_toolbox
+```
+If installed with poetry, the package can be ran with:
 ```
 poetry run SANDI_python_toolbox
 ```
@@ -26,11 +36,11 @@ Run either of these with the -h flag to get a detailed summary of the toolbox an
 ## Example Toolbox Call
 For a dry-run:
 ```
-poetry run SANDI_python_toolbox /path/to/bids/inputs /path/for/outputs participant --Delta 23.6 --Small_Delta 7 --cores all -np
+SANDI_python_toolbox /path/to/bids/inputs /path/for/outputs participant --Delta 23.6 --Small_Delta 7 --cores all -np
 ```
 To actually run the software:
 ```
-poetry run SANDI_python_toolbox /path/to/bids/inputs /path/for/outputs participant --Delta 23.6 --Small_Delta 7 --cores all
+SANDI_python_toolbox /path/to/bids/inputs /path/for/outputs participant --Delta 23.6 --Small_Delta 7 --cores all
 ```
 ## Example File Struture
 ```
